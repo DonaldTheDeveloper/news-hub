@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050a18">
+<title>NewsHub</title>
+<link rel="stylesheet" href="/web/style.css">
+<script type="importmap">{"imports":{"three":"/vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="labels"></div>
+
+<header id="top">
+  <div class="brand"><span class="logo">◉</span><b>NewsHub</b></div>
+  <div class="search"><input id="q" type="search" data-i18n-ph="search" placeholder="Search the news…" autocomplete="off"></div>
+  <div class="seg" id="modeSeg">
+    <button data-mode="globe" class="on">🌍 <span data-i18n="globe">Globe</span></button>
+    <button data-mode="wall">🧱 <span data-i18n="wall">Wall</span></button>
+  </div>
+  <button id="langBtn" class="pill" data-i18n-title="language" title="Language">🌐 <span id="langName">English</span></button>
+  <button id="prefBtn" class="pill" data-i18n-title="preferences" title="Preferences">⚙ <span data-i18n="preferences">Preferences</span></button>
+  <button id="refreshBtn" class="pill icon" data-i18n-title="refresh" title="Refresh">⟳</button>
+</header>
+
+<aside id="feed" class="panel">
+  <div id="feedHead">
+    <div class="grab" aria-hidden="true"></div>
+    <div id="statLine"></div>
+    <div id="chips"></div>
+  </div>
+  <div id="chromeBanner" hidden>
+    <span data-i18n="chrome_hint">Chrome can translate privately on your computer.</span>
+    <button id="chromeBtn" class="pill" data-i18n="enable_chrome">Enable on-device translation</button>
+  </div>
+  <div id="list"></div>
+</aside>
+
+<div id="hint"></div>
+<div id="tooltip"></div>
+
+<aside id="prefs" class="drawer" aria-hidden="true">
+  <div class="drawerHead"><b data-i18n="preferences">Preferences</b><button id="prefClose" class="pill icon">✕</button></div>
+  <div id="prefBody"></div>
+  <div class="drawerFoot">
+    <span data-i18n="save_note">Preferences are saved automatically.</span>
+    <div><button id="prefReset" class="pill" data-i18n="reset">Reset</button>
+    <button id="prefExport" class="pill" data-i18n="export">Export</button>
+    <button id="prefImport" class="pill" data-i18n="import">Import</button></div>
+  </div>
+</aside>
+
+<div id="langPop" hidden>
+  <input id="langSearch" type="search" placeholder="Search languages…" autocomplete="off">
+  <div id="langList"></div>
+</div>
+
+<div id="modal" hidden><div id="modalCard"></div></div>
+<div id="toast"></div>
+<script src="/web/config.js"></script>
+<script type="module" src="/web/app.js"></script>
+</body>
+</html>

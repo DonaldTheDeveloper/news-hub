@@ -1,0 +1,36 @@
+name: Refresh news
+on:
+  schedule:
+    - cron: "*/30 * * * *"     # every 30 minutes (GitHub may delay a run by a few minutes)
+  workflow_dispatch:            # lets you run it by hand from the Actions tab
+permissions:
+  contents: write
+concurrency:
+  group: refresh-news
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Load the previous news file (keeps stories that just dropped off the feeds)
+        run: |
+          mkdir -p out
+          git fetch origin data --depth=1 || true
+          git show origin/data:news.json > out/news.json 2>/dev/null || rm -f out/news.json
+      - name: Collect the news
+        run: python collector/build_public.py --out out/news.json
+      - name: Publish to the data branch (a single fresh commit, so the repo never grows)
+        run: |
+          rm -rf /tmp/pub && mkdir /tmp/pub && cp out/news.json /tmp/pub/news.json
+          cd /tmp/pub
+          git init -q -b data
+          git config user.name "news-bot"
+          git config user.email "news-bot@users.noreply.github.com"
+          git add news.json
+          git commit -qm "news $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data
