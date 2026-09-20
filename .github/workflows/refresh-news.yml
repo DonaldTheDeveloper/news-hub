@@ -1,5 +1,7 @@
 name: Refresh news
 on:
+  push:
+    branches: [main]   # runs once right after you push, so the first news file appears immediately
   schedule:
     - cron: "*/30 * * * *"     # every 30 minutes (GitHub may delay a run by a few minutes)
   workflow_dispatch:            # lets you run it by hand from the Actions tab
